@@ -154,8 +154,8 @@
                 {{vout.amount }}               
               </div>
               <div class="ellipsis" ng-show="vout.hasAssets">
-                <img width="32" src="/img/icons/lock.png" ng-show="{{vout.isLocked}}"/>
-                <img width="32" src="/img/icons/unlock.png" ng-show="{{!vout.isLocked}}"/>
+                    <i class="fas fa-lock" ng-show="{{vout.isLocked}}"></i>
+                    <i class="fas fa-lock-open" ng-show="{{!vout.isLocked}}"></i>
                 <a href="/asset/{{vout.assetId}}/{{tx.txid}}/{{vout.index}}" style="margin-left: 5px">{{vout.assetName ? vout.assetName : vout.assetId}}</a>
               </div>
             </div>

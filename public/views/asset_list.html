@@ -1,5 +1,5 @@
 <div data-ng-include src="'/views/includes/connection.html'"></div>
-<section data-ng-controller="BlocksController" data-ng-init="list()">
+<section data-ng-controller="AssetsController" data-ng-init="list()">
   <div class="row">
     <div class="col-md-12">
       <!-- <div class="block-id">
@@ -24,7 +24,7 @@
       <div class="page-header">
           <div class="row"> 
             <div class="col-md-6">  
-                <h1><span translate>Blocks</span> <small><span translate>by date.</span> {{detail}} {{before}}</small></h1>
+                <h1><span translate>Assets</span> <small><span translate>by date.</span> {{detail}} {{before}}</small></h1>
             </div>
             <div class="col-md-6 text-right">  
       <!--             <div class="text-center text-muted" data-ng-if="!pagination.current">
@@ -41,30 +41,28 @@
         
       </div>
       <table class="table table-hover table-striped">
-        <thead>
-          <tr>
-            <th translate>Height</th>
-            <th translate>Timestamp</th>
-            <th class="text-right" translate>Transactions</th>
-            <th class="text-right hidden-xs" translate>Mined by</th>
-            <th class="text-right" translate>Size</th>
-            <th class="text-right" translate>Algo</th>
+          <thead>
+            <tr>
+              <th>Txid</th>
+              <th>Type</th>
+              <th>Time</th>
+              <th>Block</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr data-ng-show="!latestAssets.length"><td colspan="3" translate>Waiting for transactions...</td></tr>
+          <tr class="fader" data-ng-repeat='tx in latestAssets'>
+            <td>
+              <a class="ellipsis" href="tx/{{tx.txid}}">{{tx.txid}}</a>
+            </td>
+            <td>{{tx.transtype}}</td>
+            <td>{{tx.time | date:'medium'}}</td>
+            <td><a href="block/{{tx.blockhash}}">{{tx.block}}</a></td>
+            <td>{{tx.totalAsset}}</td>
           </tr>
-        </thead>
-        <tbody>
-        <tr data-ng-show="loading">
-          <td colspan="5"><span translate>Waiting for blocks...</span> <span class="loader-gif"></span></td>
-        </tr>
-        <tr class="fader" data-ng-repeat='b in blocks'>
-          <td><a href="/block/{{b.hash}}">{{b.height}}</a></td>
-          <td>{{b.time * 1000 | date:'medium'}}</td>
-          <td class="text-right">{{b.txlength}}</td>
-          <td class="text-right hidden-xs"><a href="{{b.poolInfo.url}}" title="{{b.poolInfo.poolName}}" target="_blank" data-ng-show="b.poolInfo">{{b.poolInfo.poolName}}</a></td>
-          <td class="text-right">{{b.size}}</td>
-          <td class="text-right">{{b.algo}}</td>
-        </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
       <div data-ng-if="pagination.more">
         <a class="btn btn-primary" href="/blocks-date/{{pagination.current}}" data-ng-show="{{before}}">Lastest block from date</a>
         <a class="btn btn-primary" href="/blocks-date/{{pagination.current}}/{{pagination.moreTs}}">Older blocks from this date</a>

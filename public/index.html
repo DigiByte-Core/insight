@@ -9,7 +9,8 @@
 	<meta name="keywords" content="digibytes, transactions, blocks, address, block chain, best block, mining difficulty, hash serialized">
 	<meta name="description" content="DigiExplorer. View detailed information on all digibyte transactions and block. {{ $root.title + $root.titleDetail }}">
 	<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,400italic">
+  <script src="https://kit.fontawesome.com/8c58f915a5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.3.0/ZeroClipboard.Core.min.js"></script>
 	<link rel="stylesheet" href="/css/main.min.css">
 </head>
 <body ng-cloak class="ng-cloak">
@@ -38,11 +39,15 @@
       </div>
     </script>
   </div>
-	<div id="wrap">
-		<div class="navbar navbar-default navbar-fixed-top" data-ng-include="'/views/includes/header.html'" role='navigation'></div>
-		<section class="container" data-ng-view></section>
-	</div>
-	<div id="footer" role="navigation">
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-1" data-ng-include="'/views/includes/header.html'" role='navigation'></div>
+  <div class="col-md-12 wrapper">   
+    <div class="search-holder">
+      <span class="hidden-xs navbar-form navbar-left" data-ng-include src="'/views/includes/search.html'"></span>
+    </div>
+    <section class="container-fluid" data-ng-view></section>
+      <div id="footer" role="navigation">
     <div class="container" data-ng-controller="FooterController">
       <div class="links m20t pull-left">
         <span class="languages" ng-show="availableLanguages.0">
@@ -65,6 +70,10 @@
       <a class="insight m10v pull-right" target="_blank" href="https://digiexplorer.info">digiexplorer <small>API v{{version}}</small></a>
     </div>
   </div>
+  </div>
+  </div>
+</div>
+
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/js/vendors.min.js"></script>
 	<script src="/js/angularjs-all.min.js"></script>

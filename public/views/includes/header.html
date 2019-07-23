@@ -1,22 +1,22 @@
-<div class="container">
-  <div data-ng-controller="HeaderController">
+
+  <div data-ng-controller="HeaderController" class="side-nav">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" data-ng-click="$root.isCollapsed = !$root.isCollapsed">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+        <i class="fas fa-bars"></i>
       </button>
-      <a class="digiexplorer navbar-brand" href="/">DigiExplorer</a>
+      <a class="digiexplorer navbar-brand" href="/">
+        <img src="/img/small-logo.png">
+        <span>EXPLORER</span>
+      </a>
     </div>
     <div class="navbar-collapse collapse" collapse="$root.isCollapsed">
       <ul class="nav navbar-nav">
-        <li data-ng-repeat="item in menu" ui-route="/{{item.link}}" data-ng-class="{active: $uiRoute}">
-          <a href="/{{item.link}}">{{item.title|translate}}</a>
+        <li data-ng-repeat="item in menu" ui-route="/{{item.link}}" data-ng-class="{active: $uiRoute}">            
+          <a href="/{{item.link}}"><i class="{{item.icon}}"></i> {{item.title|translate}}</a>
         </li>
       </ul>
-      <span class="hidden-xs navbar-form navbar-left" data-ng-include src="'/views/includes/search.html'"></span>
-      <ul class="nav navbar-nav navbar-right">
+     
+      <ul class="nav navbar-nav details">
         <li>
       <div class="status" data-ng-controller="StatusController">
         <div data-ng-init="getSync()" class="pull-left">
@@ -28,21 +28,21 @@
             <span  class="glyphicon glyphicon-refresh icon-rotate"></span>
             {{sync.syncPercentage}}%
           </span>
-          <span class="glyphicon glyphicon-ok" tooltip="Historic sync finished" tooltip-placement="bottom" data-ng-show="sync.status==='finished'"> </span>
-        </div>
-        &nbsp; &middot;
+<!--           <span class="glyphicon glyphicon-ok" tooltip="Historic sync finished" tooltip-placement="bottom" data-ng-show="sync.status==='finished'"> </span>
+ -->        </div>
+   
         <span data-ng-init="getStatus('Info')">
-          <strong>{{'Conn'|translate}}</strong> {{info.connections}}
-        </span> &middot;
-        <strong>{{'Height'|translate}}</strong> {{totalBlocks || info.blocks}}
+          <p><i class="fas fa-share-alt" aria-hidden="true"></i> <strong>{{'Conn'|translate}}</strong> {{info.connections}}</p>
+        </span> 
+        <p><i class="fas fa-chart-bar" aria-hidden="true"></i> <strong>{{'Height'|translate}}</strong> {{totalBlocks || info.blocks}}</p>
       </div>
       </li>
-      <li>
+      <!-- <li>
         <a href="#" data-ng-click="openScannerModal()"><span class="glyphicon
             glyphicon-qrcode"></span> Scan</a>
       </li>
-      <li class="dropdown" data-ng-controller="CurrencyController" data-ng-include="'/views/includes/currency.html'"></li>
+      <li class="dropdown" data-ng-controller="CurrencyController" data-ng-include="'/views/includes/currency.html'"></li> -->
       </ul>
     </div>
   </div>
-</div>
+
