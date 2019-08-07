@@ -193,4 +193,7 @@ angular.module('insight.assets')
   .factory('getAssetTransactions',
   function($resource) {
     return $resource(EXPLORER_API_URL + '/getdatransactions?limit=5');    
+  }).factory('getAllAssetTransactions',
+  function($resource) {
+    return $resource(EXPLORER_API_URL + '/getdatransactions');    
   });

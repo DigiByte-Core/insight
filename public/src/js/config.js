@@ -39,6 +39,10 @@ angular.module('insight').config(function($routeProvider) {
       templateUrl: '/views/address.html',
       title: 'Digibyte Address '
     }).
+    when('/assets', {
+      templateUrl: '/views/asset_list.html',
+      title: 'Digibyte Assets transactions'
+    }).
     when('/status', {
       templateUrl: '/views/status.html',
       title: 'Status'

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('insight.assets').controller('AssetsController',
-  function($scope, $rootScope, $routeParams, $location, Global, assetInfo, assetInfoWithTxes, assetMetadata ) {
+  function($scope, $rootScope, $routeParams, $location, Global, assetInfo, assetInfoWithTxes, assetMetadata, getAssetTransactions,getAllAssetTransactions ) {
 
     $scope.metadataExpanded = false;
 
@@ -92,6 +92,68 @@ angular.module('insight.assets').controller('AssetsController',
       });
       return amount;
     };
+
+      $scope.list = function() {
+    $scope.loading = true;
+
+    if ($routeParams.blockDate) {
+      $scope.detail = 'On ' + $routeParams.blockDate;
+    }
+
+    if ($routeParams.startTimestamp) {
+      var d=new Date($routeParams.startTimestamp*1000);
+      var m=d.getMinutes();
+      if (m<10) m = '0' + m;
+      $scope.before = ' before ' + d.getHours() + ':' + m;
+    }
+
+    $rootScope.titleDetail = $scope.detail;
+
+
+  };
+
+  var _getLatestAssets = function() {
+      return getAllAssetTransactions.query(function(resp) {
+        $scope.latestAssets = resp.map(function(a) {
+          var transtype = a.dadata && a.dadata[0] && a.dadata[0].type || "N/A";
+          var totalAsset = 0;
+          var inputsAdr = [];
+
+          a.vin.forEach(function (input) {
+            var address = input.previousOutput && input.previousOutput.addresses && input.previousOutput.addresses[0] || false;
+            if (address) {
+              inputsAdr.push(address);
+            }
+          });
+
+          a.vout.forEach(function (output) {
+            // make sure this is not change
+            var address = output.scriptPubKey && output.scriptPubKey.addresses && output.scriptPubKey.addresses[0] || false;
+            if (!address || inputsAdr.indexOf(address) == -1 || transtype == "issuance" ) {
+              if (typeof output.assets !== 'undefined') {
+                output.assets.forEach(function (asset) {
+                  var divisor = Math.pow(10, asset.divisibility);
+                  totalAsset = parseFloat(totalAsset);
+                  totalAsset+= asset.amount / divisor;
+                  totalAsset = totalAsset.toFixed(asset.divisibility); 
+                })
+              }
+            }
+          })
+          return {
+            transtype: transtype,
+            txid: a.txid,
+            time: a.time,
+            block: a.blockheight,
+            blockhash: a.blockhash,
+            totalAsset: totalAsset
+          };
+        });
+        console.log($scope.latestAssets)
+      });
+    }
+
+    _getLatestAssets();
 
     $scope.expandMetadata = function() {
       $scope.metadataExpanded = !$scope.metadataExpanded;
