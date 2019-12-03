@@ -13,11 +13,11 @@ angular.module('insight.system').controller('HeaderController',
     $scope.menu = [{
       'title': 'Blocks',
       'link': 'blocks',
-      'icon': 'fas fa-cube'
+      'icon': 'fas fa-cubes'
     },{
       'title': 'Assets',
       'link': 'assets',
-      'icon': 'fas fa-cube'
+      'icon': 'fas fa-shopping-basket'
     },
      {
       'title': 'Status',
